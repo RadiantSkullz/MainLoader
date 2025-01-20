@@ -1,0 +1,17 @@
+-- Radiant was here --
+local gameId = game.PlaceId
+
+local gameScripts = {
+    [91819941310461] = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/SlapLegendsObf.lua"))()
+    end,
+    [18668065416] = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/BlueLockBetterObf.lua"))()
+    end
+}
+
+if gameScripts[gameId] then
+    gameScripts[gameId]()
+else
+    print("not supported")
+end
