@@ -1,0 +1,24 @@
+local targetGameIds = {
+    [91819941310461] = function()
+        loadstring("https://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/SlapLegendsObf.lua")()
+    end,
+    
+    
+    [18668065416] = function()
+        loadstring("https://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/BlueLockBetterObf.lua")()
+    end
+}
+
+if targetGameIds[game.PlaceId] then
+    targetGameIds[game.PlaceId]()
+else
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+end
+
+
+
+--[[
+        [246813579] = function()
+        loadstring("your third loadstring")()
+    end
+]]--
