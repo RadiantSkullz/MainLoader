@@ -1,4 +1,4 @@
--- Radiant was here --
+
 local gameId = game.PlaceId
 
 local gameScripts = {
@@ -13,5 +13,103 @@ local gameScripts = {
 if gameScripts[gameId] then
     gameScripts[gameId]()
 else
-    print("not supported")
+    local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+local Window = Fluent:CreateWindow({
+    Title = "Fluent " .. Fluent.Version,
+    SubTitle = "by dawid",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+})
+
+--Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+}
+
+local Options = Fluent.Options
+
+do
+    Fluent:Notify({
+        Title = "Notification",
+        Content = "This is a notification",
+        SubContent = "SubContent", -- Optional
+        Duration = 5 -- Set to nil to make the notification not disappear
+    })
+
+
+
+    Tabs.Main:AddParagraph({
+        Title = "Boundless",
+        Content = "If you're here, that means you've either joined a game that isnt supported, or the game is supported its just in a different gameID either way you can pick thee script that you want to use below"
+    })
+
+
+    Tabs.Main:AddButton({
+        Title = "Blue Lock: Rivals",
+        Description = "Loads the Blue Lock: Rivals Script",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/BlueLockBetterObf.lua"))()
+        end
+    })
+
+    Tabs.Main:AddButton({
+        Title = "Slap Legends",
+        Description = "Loads the Slap Legends script",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/SlapLegendsObf.lua"))()
+        end
+    })
+
+    Tabs.Main:AddButton({
+        Title = "Demonology",
+        Description = "Loads the Demonology script",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/DemonologyObf.lua"))()
+        end
+    })
+
+
+-- Addons:
+-- SaveManager (Allows you to have a configuration system)
+-- InterfaceManager (Allows you to have a interface managment system)
+
+-- Hand the library over to our managers
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
+
+-- Ignore keys that are used by ThemeManager.
+-- (we dont want configs to save themes, do we?)
+SaveManager:IgnoreThemeSettings()
+
+-- You can add indexes of elements the save manager should ignore
+SaveManager:SetIgnoreIndexes({})
+
+-- use case for doing it this way:
+-- a script hub could have themes in a global folder
+-- and game configs in a separate folder per game
+InterfaceManager:SetFolder("FluentScriptHub")
+SaveManager:SetFolder("FluentScriptHub/specific-game")
+
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
+
+
+Window:SelectTab(1)
+
+Fluent:Notify({
+    Title = "Fluent",
+    Content = "The script has been loaded.",
+    Duration = 8
+})
+
+-- You can use the SaveManager:LoadAutoloadConfig() to load a config
+-- which has been marked to be one that auto loads!
+SaveManager:LoadAutoloadConfig()
 end
