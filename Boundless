@@ -37,9 +37,9 @@ local Options = Fluent.Options
 
 do
     Fluent:Notify({
-        Title = "Notification",
-        Content = "This is a notification",
-        SubContent = "SubContent", -- Optional
+        Title = "Boundless",
+        Content = "Script is loading...",
+        SubContent = "", -- Optional
         Duration = 5 -- Set to nil to make the notification not disappear
     })
 
@@ -47,7 +47,7 @@ do
 
     Tabs.Main:AddParagraph({
         Title = "Boundless",
-        Content = "If you're here, that means you've either joined a game that isnt supported, or the game is supported its just in a different gameID either way you can pick thee script that you want to use below"
+        Content = "If you're here, that means you've either joined a game that isnt supported, or the game is supported its just in a different gameID either way you can pick the script that you want to use below"
     })
 
 
@@ -104,7 +104,7 @@ SaveManager:BuildConfigSection(Tabs.Settings)
 Window:SelectTab(1)
 
 Fluent:Notify({
-    Title = "Fluent",
+    Title = "Boundless",
     Content = "The script has been loaded.",
     Duration = 8
 })
@@ -112,4 +112,5 @@ Fluent:Notify({
 -- You can use the SaveManager:LoadAutoloadConfig() to load a config
 -- which has been marked to be one that auto loads!
 SaveManager:LoadAutoloadConfig()
+end
 end
