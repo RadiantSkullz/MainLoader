@@ -5,6 +5,9 @@ local gameScripts = {
     [91819941310461] = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/SlapLegendsObf.lua"))()
     end,
+    [73956553001240] = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/HaikyuuLegends"))()
+    end,
     [18668065416] = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/BlueLockBetterObf.lua"))()
     end
@@ -18,7 +21,7 @@ local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/d
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
 local Window = Fluent:CreateWindow({
-    Title = "Fluent " .. Fluent.Version,
+    Title = "Boundless " .. Fluent.Version,
     SubTitle = "By Radiant",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 460),
@@ -72,6 +75,15 @@ do
         Description = "Loads the Demonology script",
         Callback = function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/DemonologyObf.lua"))()
+        end
+    })
+
+
+    Tabs.Main:AddButton({
+        Title = "Haikyuu Legends",
+        Description = "Loads the Haikyuu Legends script",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/HaikyuuLegends"))()
         end
     })
 
