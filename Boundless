@@ -10,7 +10,10 @@ local gameScripts = {
     end,
     [18668065416] = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/BlueLockBetterObf.lua"))()
-    end
+    end,
+    [7018190066] = function()
+        loadstring(game:HttpGet("http://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/DeadRails"))()
+    end,
 }
 
 if gameScripts[gameId] then
@@ -84,6 +87,14 @@ do
         Description = "Loads the Haikyuu Legends script",
         Callback = function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/HaikyuuLegends"))()
+        end
+    })
+
+        Tabs.Main:AddButton({
+        Title = "Dead Rails",
+        Description = "Loads the Dead Rails script",
+        Callback = function()
+            loadstring(game:HttpGet("http://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/DeadRails"))()
         end
     })
 
