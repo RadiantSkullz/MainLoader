@@ -13,7 +13,7 @@ local gameScripts = {
     end,
     [7018190066] = function()
         loadstring(game:HttpGet("http://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/DeadRails"))()
-    end,
+    end
 }
 
 if gameScripts[gameId] then
