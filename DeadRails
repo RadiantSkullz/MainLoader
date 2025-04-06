@@ -1,0 +1,496 @@
+
+
+
+-- Loading Screen --
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "LoadingGui"
+screenGui.ResetOnSpawn = false
+screenGui.IgnoreGuiInset = true
+screenGui.Parent = playerGui
+
+-- Create Frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 240, 0, 80)
+frame.Position = UDim2.new(0.5, 0, 0.5, 0)
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.BackgroundColor3 = Color3.new(0, 0, 0)
+frame.BackgroundTransparency = 1 -- Start fully transparent
+frame.BorderSizePixel = 0
+frame.Parent = screenGui
+
+-- Rounded corners
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 16)
+corner.Parent = frame
+
+-- TextLabel
+local textLabel = Instance.new("TextLabel")
+textLabel.Size = UDim2.new(1, 0, 1, 0)
+textLabel.BackgroundTransparency = 1
+textLabel.Text = "Loading..."
+textLabel.Font = Enum.Font.SourceSansBold
+textLabel.TextSize = 30
+textLabel.TextColor3 = Color3.new(1, 1, 1)
+textLabel.TextTransparency = 1 -- Start transparent
+textLabel.TextStrokeTransparency = 0.7
+textLabel.Parent = frame
+
+-- Tween Info
+local fadeTime = 0.4
+local tweenInfo = TweenInfo.new(fadeTime, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+
+-- Fade-in tweens
+local fadeInFrame = TweenService:Create(frame, tweenInfo, {BackgroundTransparency = 0})
+local fadeInText = TweenService:Create(textLabel, tweenInfo, {TextTransparency = 0})
+
+-- Fade-out tweens
+local fadeOutFrame = TweenService:Create(frame, tweenInfo, {BackgroundTransparency = 1})
+local fadeOutText = TweenService:Create(textLabel, tweenInfo, {TextTransparency = 1})
+
+-- Play fade-in
+fadeInFrame:Play()
+fadeInText:Play()
+
+-- Wait before fading out
+task.delay(2.5 - fadeTime * 2, function()
+	fadeOutFrame:Play()
+	fadeOutText:Play()
+
+	-- Destroy GUI after fade-out finishes
+	task.delay(fadeTime, function()
+		screenGui:Destroy()
+	end)
+end)
+
+task.wait(2)
+-- Main Script --
+
+
+
+
+
+
+
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+local Window = Fluent:CreateWindow({
+    Title = "Boundless " .. Fluent.Version,
+    SubTitle = "By Radiant",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = false, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Darker",
+    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+})
+
+--Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+}
+
+local Options = Fluent.Options
+
+do
+    Fluent:Notify({
+        Title = "Boundless",
+        Content = "Hope you enjoy!",
+        SubContent = "", -- Optional
+        Duration = 5 -- Set to nil to make the notification not disappear
+    })
+
+
+
+    Tabs.Main:AddParagraph({
+        Title = "Steps:",
+        Content = "First Sell Gold Then Buy A Revolver And Ammo.\nThen use the noclip and third person, then zoom in and out. \n then use the teleport button and kill the npc"
+    })
+
+    Tabs.Main:AddParagraph({
+        Title = "You'll have to wait ten minutes before pulling the crank. \nNo Worries i added a timer for you."
+    })
+
+    Tabs.Main:AddButton({
+        Title = "Noclip",
+        Description = "Step One.",
+        Callback = function()
+            local Players = game:GetService("Players")
+            local RunService = game:GetService("RunService")
+            
+            local player = Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            
+            -- Function to enable noclip
+            local function enableNoclip()
+                for _, part in pairs(character:GetDescendants()) do
+                    if part:IsA("BasePart") and part.CanCollide == true then
+                        part.CanCollide = false
+                    end
+                end
+            end
+            
+            -- Update noclip every frame
+            RunService.Stepped:Connect(function()
+                if character and character.Parent then
+                    enableNoclip()
+                end
+            end)
+            
+        end
+    })
+
+
+    Tabs.Main:AddButton({
+        Title = "Third Person",
+        Description = "Step Two.",
+        Callback = function()
+            game.Players.LocalPlayer.CameraMode = Enum.CameraMode.Classic
+        end
+    })
+
+    Tabs.Main:AddButton({
+        Title = "Teleport To End",
+        Description = "Step Three.",
+        Callback = function()
+            local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- Desired coordinates
+local targetPosition = Vector3.new(-424.00, 30.00, -49041.00)
+
+-- Function to freeze character
+local function freezeCharacter(char, freeze)
+	for _, part in pairs(char:GetDescendants()) do
+		if part:IsA("BasePart") then
+			part.Anchored = freeze
+		end
+	end
+end
+
+-- Teleport
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+-- Freeze
+freezeCharacter(character, true)
+
+-- Unfreeze after 2.5 seconds
+task.delay(1.5, function()
+	freezeCharacter(character, false)
+end)
+
+        end
+    })
+
+end
+-- Addons:
+-- SaveManager (Allows you to have a configuration system)
+-- InterfaceManager (Allows you to have a interface managment system)
+
+-- Hand the library over to our managers
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
+
+-- Ignore keys that are used by ThemeManager.
+-- (we dont want configs to save themes, do we?)
+SaveManager:IgnoreThemeSettings()
+
+-- You can add indexes of elements the save manager should ignore
+SaveManager:SetIgnoreIndexes({})
+
+-- use case for doing it this way:
+-- a script hub could have themes in a global folder
+-- and game configs in a separate folder per game
+InterfaceManager:SetFolder("FluentScriptHub")
+SaveManager:SetFolder("FluentScriptHub/specific-game")
+
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
+
+
+Window:SelectTab(1)
+
+Fluent:Notify({
+    Title = "Boundless",
+    Content = "Type Shit.",
+    Duration = 8
+})
+
+-- You can use the SaveManager:LoadAutoloadConfig() to load a config
+-- which has been marked to be one that auto loads!
+SaveManager:LoadAutoloadConfig()
+
+
+
+
+-- Loading Screen --
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "LoadingGui"
+screenGui.ResetOnSpawn = false
+screenGui.IgnoreGuiInset = true
+screenGui.Parent = playerGui
+
+-- Create Frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 240, 0, 80)
+frame.Position = UDim2.new(0.5, 0, 0.5, 0)
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.BackgroundColor3 = Color3.new(0, 0, 0)
+frame.BackgroundTransparency = 1 -- Start fully transparent
+frame.BorderSizePixel = 0
+frame.Parent = screenGui
+
+-- Rounded corners
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 16)
+corner.Parent = frame
+
+-- TextLabel
+local textLabel = Instance.new("TextLabel")
+textLabel.Size = UDim2.new(1, 0, 1, 0)
+textLabel.BackgroundTransparency = 1
+textLabel.Text = "Loading..."
+textLabel.Font = Enum.Font.SourceSansBold
+textLabel.TextSize = 30
+textLabel.TextColor3 = Color3.new(1, 1, 1)
+textLabel.TextTransparency = 1 -- Start transparent
+textLabel.TextStrokeTransparency = 0.7
+textLabel.Parent = frame
+
+-- Tween Info
+local fadeTime = 0.4
+local tweenInfo = TweenInfo.new(fadeTime, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+
+-- Fade-in tweens
+local fadeInFrame = TweenService:Create(frame, tweenInfo, {BackgroundTransparency = 0})
+local fadeInText = TweenService:Create(textLabel, tweenInfo, {TextTransparency = 0})
+
+-- Fade-out tweens
+local fadeOutFrame = TweenService:Create(frame, tweenInfo, {BackgroundTransparency = 1})
+local fadeOutText = TweenService:Create(textLabel, tweenInfo, {TextTransparency = 1})
+
+-- Play fade-in
+fadeInFrame:Play()
+fadeInText:Play()
+
+-- Wait before fading out
+task.delay(2.5 - fadeTime * 2, function()
+	fadeOutFrame:Play()
+	fadeOutText:Play()
+
+	-- Destroy GUI after fade-out finishes
+	task.delay(fadeTime, function()
+		screenGui:Destroy()
+	end)
+end)
+
+task.wait(2)
+-- Main Script --
+
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+-- Create the timer label
+local timerLabel = Instance.new("TextLabel")
+timerLabel.Parent = screenGui
+timerLabel.Size = UDim2.new(0, 200, 0, 50)
+timerLabel.Position = UDim2.new(1, -210, 0, 50)  -- Right side of the screen, slightly above the center
+timerLabel.AnchorPoint = Vector2.new(1, 0)
+timerLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+timerLabel.TextScaled = true
+timerLabel.BackgroundTransparency = 1
+timerLabel.Font = Enum.Font.SourceSansBold
+timerLabel.Text = "10:00"
+
+-- Function to update the timer
+local totalTime = 600  -- 10 minutes in seconds
+local function updateTimer()
+	while totalTime > 0 do
+		local minutes = math.floor(totalTime / 60)
+		local seconds = totalTime % 60
+		timerLabel.Text = string.format("%02d:%02d", minutes, seconds)
+		totalTime = totalTime - 1
+		wait(1)
+	end
+end
+
+-- Start the timer
+updateTimer()
+
+
+
+
+
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+local Window = Fluent:CreateWindow({
+    Title = "Boundless " .. Fluent.Version,
+    SubTitle = "By Radiant",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = false, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Darker",
+    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+})
+
+--Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+}
+
+local Options = Fluent.Options
+
+do
+    Fluent:Notify({
+        Title = "Boundless",
+        Content = "Hope you enjoy!",
+        SubContent = "", -- Optional
+        Duration = 5 -- Set to nil to make the notification not disappear
+    })
+
+
+
+    Tabs.Main:AddParagraph({
+        Title = "Steps:",
+        Content = "First Sell Gold Then Buy A Revolver And Ammo.\nThen use the noclip and third person, then zoom in and out. \n then use the teleport button and kill the npc"
+    })
+
+    Tabs.Main:AddParagraph({
+        Title = "You'll have to wait ten minutes before pulling the crank. \nNo Worries i added a timer for you."
+    })
+
+    Tabs.Main:AddButton({
+        Title = "Noclip",
+        Description = "Step One.",
+        Callback = function()
+            local Players = game:GetService("Players")
+            local RunService = game:GetService("RunService")
+            
+            local player = Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            
+            -- Function to enable noclip
+            local function enableNoclip()
+                for _, part in pairs(character:GetDescendants()) do
+                    if part:IsA("BasePart") and part.CanCollide == true then
+                        part.CanCollide = false
+                    end
+                end
+            end
+            
+            -- Update noclip every frame
+            RunService.Stepped:Connect(function()
+                if character and character.Parent then
+                    enableNoclip()
+                end
+            end)
+            
+        end
+    })
+
+
+    Tabs.Main:AddButton({
+        Title = "Third Person",
+        Description = "Step Two.",
+        Callback = function()
+            game.Players.LocalPlayer.CameraMode = Enum.CameraMode.Classic
+        end
+    })
+
+    Tabs.Main:AddButton({
+        Title = "Teleport To End",
+        Description = "Step Three.",
+        Callback = function()
+            local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- Desired coordinates
+local targetPosition = Vector3.new(-424.00, 30.00, -49041.00)
+
+-- Function to freeze character
+local function freezeCharacter(char, freeze)
+	for _, part in pairs(char:GetDescendants()) do
+		if part:IsA("BasePart") then
+			part.Anchored = freeze
+		end
+	end
+end
+
+-- Teleport
+humanoidRootPart.CFrame = CFrame.new(targetPosition)
+
+-- Freeze
+freezeCharacter(character, true)
+
+-- Unfreeze after 2.5 seconds
+task.delay(1.5, function()
+	freezeCharacter(character, false)
+end)
+
+        end
+    })
+
+end
+-- Addons:
+-- SaveManager (Allows you to have a configuration system)
+-- InterfaceManager (Allows you to have a interface managment system)
+
+-- Hand the library over to our managers
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
+
+-- Ignore keys that are used by ThemeManager.
+-- (we dont want configs to save themes, do we?)
+SaveManager:IgnoreThemeSettings()
+
+-- You can add indexes of elements the save manager should ignore
+SaveManager:SetIgnoreIndexes({})
+
+-- use case for doing it this way:
+-- a script hub could have themes in a global folder
+-- and game configs in a separate folder per game
+InterfaceManager:SetFolder("FluentScriptHub")
+SaveManager:SetFolder("FluentScriptHub/specific-game")
+
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
+
+
+Window:SelectTab(1)
+
+Fluent:Notify({
+    Title = "Boundless",
+    Content = "Type Shit.",
+    Duration = 8
+})
+
+-- You can use the SaveManager:LoadAutoloadConfig() to load a config
+-- which has been marked to be one that auto loads!
+SaveManager:LoadAutoloadConfig()
