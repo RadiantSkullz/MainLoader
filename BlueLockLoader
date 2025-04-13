@@ -1,0 +1,8 @@
+local UserInputService = game:GetService("UserInputService")
+
+-- Check the platform
+if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/blrbettermob"))()
+elseif UserInputService.KeyboardEnabled and not UserInputService.TouchEnabled then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/RadiantSkullz/MainLoader/refs/heads/main/blrbetterpc"))()
+end
